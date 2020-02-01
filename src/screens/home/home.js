@@ -1,10 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
 import GridList from 'react-native-grid-list';
 import LinearGradient from 'react-native-linear-gradient';
-
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import {Button} from 'react-native-elements';
+import MenuImage from '../../components/MenuImage/MenuImage';
+import DrawerActions from 'react-navigation';
+import styles from './styles';
  
 const items = [
   { thumbnail: require('../../../assets/images/apartment.jpeg') , title: "Apartment Cleaning" , id:1},
@@ -15,6 +18,16 @@ const items = [
 ];
  
 export default class Home extends PureComponent {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Home',
+    headerLeft: (
+      <MenuImage
+        onPress={() => {
+          navigation.openDrawer();
+        }}
+      />
+    )
+  });
     constructor(props){
         super(props);
         this.state = {
@@ -32,42 +45,32 @@ export default class Home extends PureComponent {
 pick =(id) => {
   this.props.navigation.navigate("Subcategory", {id});
 }
+renderRecipes = ({ item }) => (
+  <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress = {() => this.pick(item.id)}>
+    <View style={styles.container}>
+      <Image style={styles.photo} source={item.thumbnail } />
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
+  </TouchableHighlight>
+);
   render() {
 
     return (
         
-        <LinearGradient colors={['#f9faf2', '#dcf7c8', '#c3f28a']} style={styles.linearGradient}>
-      <View style={styles.container}>
-        <GridList
         
-          showSeparator = {true}
-          separatorBorderWidth = {10}
-          data={items}
+      
+      <View style = {{backgroundColor: '#F2F4F6'}}>
+        <FlatList
+          vertical
           numColumns={2}
-          renderItem={this.renderItem}
+          showsVerticalScrollIndicator={false}
+          data={items}
+          renderItem={this.renderRecipes}
+          keyExtractor={item => `${item.id}`}
         />
-         
       </View>
-      </LinearGradient>
      
+      
     );
   }
 }
- 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  image: {
-    width: '100%',
-    height: '85%',
-    borderRadius: 10,
-  },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
-  },
-});

@@ -7,7 +7,8 @@ import SubCat from './Subcategory/subCategory';
 import Selection from './selection/Selection'
 import Map from './map/map';
 import Cart from './cart/cart'
-
+import Profile from './profile/profile'
+import About from './about/about'
 export {
     Welcome,
     Signup,
@@ -15,5 +16,7 @@ export {
     SubCat,
     Selection,
     Map, 
-    Cart
+    Cart,
+    Profile,
+    About
 }

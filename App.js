@@ -1,16 +1,14 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import AppNav from './routes';
-import {Provider as PaperProvider} from "react-native-paper";
-
+import {Provider as PaperProvider} from 'react-native-paper';
 
 const App = () => {
   const ApNav = AppNav();
   return (
     <Fragment>
-    <PaperProvider>
-    <ApNav />
-    </PaperProvider>
-   
+     
+        <ApNav />
+      
     </Fragment>
   );
 };

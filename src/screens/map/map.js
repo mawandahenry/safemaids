@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import MapView, {AnimatedRegion} from 'react-native-maps';;
+import MapView, {AnimatedRegion} from 'react-native-maps';
 import RNLocation from 'react-native-location';
 import {Card, Button} from 'react-native-elements';
 const {width, height} = Dimensions.get('window');
@@ -38,38 +38,12 @@ class Map extends Component {
     this._getLocationAsync();
   }
 
-  componentDidMount() {}
-
   _handleProceed = async () => {
     // if(this.state.mapRegion == null){
     //   alert('No location selected ');
     //   return;
     // }
     this.props.navigation.navigate("Cart")
-    // this.props.reset_errandfetch();
-    // this.props.start_errand_fetch();
-    // await fetch('https://unclebob1.herokuapp.com/api/v1/client/personal', {
-    //   method: 'post',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'content-type': 'application/json',
-    //     Authorization: this.props.sys.token,
-    //   },
-    //   body: JSON.stringify(obj),
-    // })
-    //   .then(response => response.json())
-    //   .then(responsejson => {
-    //     if  (Array.isArray(responsejson)) {
-    //       this.props.errandfetch_success_arr(responsejson);
-    //     }
-    //     this.props.errandfetch_success(responsejson);
-    //   })
-    //   .catch(err => {
-    //     this.props.errand_fetch_fail(err.message);
-    //   });
-
-    // this.check_personal(obj, div);
-
 
   }
 
@@ -83,9 +57,9 @@ class Map extends Component {
         latitudeDelta: this.state.latDelta,
         longitudeDelta: this.state.longDelta,
       },
-    });;
-    const location = e.nativeEvent.coordinate;
-    this.getCities(location);
+    });
+    //const location = e.nativeEvent.coordinate;
+    //this.getCities(location);
   };
 
 //   getCities = async coords => {
@@ -108,32 +82,17 @@ class Map extends Component {
       }).then(granted => {
           if (granted) {
             this.locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
-              /* Example location returned
-              {
-                speed: -1,
-                longitude: -0.1337,
-                latitude: 51.50998,
-                accuracy: 5,
-                heading: -1,
-                altitude: 0,
-                altitudeAccuracy: -1
-                floor: 0
-                timestamp: 1446007304457.029,
-                fromMockProvider: false
-              }
-              */
+             console.log(locations);
              this.setState({
                 mapRegion: {
-                  locationResult: true,
-                  latitude: locations.latitude,
-                  longitude: locations.longitude,
+                  latitude: locations[0].latitude,
+                  longitude: locations[0].longitude,
                   latitudeDelta: this.state.latDelta,
                   longitudeDelta: this.state.longDelta,
                 },
                 coordinate:{
-                    latitude: locations.latitude,
-                    longitude: locations.longitude,
-                    animating: false,
+                    latitude: locations[0].latitude,
+                    longitude: locations[0].longitude,
                 }
               });
             })
@@ -149,16 +108,7 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.maps}>
-          {this.state.locationResult === null ? (
-            <ActivityIndicator
-              animating={animating}
-              color="#c3f28a"
-              size="large"
-              style={{position: 'absolute', top: 200, left: width * 0.42}}
-            />
-          ) : this.state.hasLocationPermissions === false ? (
-            <Text>Locations permissions are not granted.</Text>
-          ) : this.state.mapRegion === null ? (
+          { mapRegion === null ? (
             <Text>Maps region does not exist.</Text>
           ) : (
             <MapView
@@ -168,7 +118,7 @@ class Map extends Component {
               showsMyLocationButton={true}
               zoomEnabled={true}
               style={{flex: 1, alignSelf: 'stretch', height: 400}}
-              region={this.state.mapRegion}
+              region={mapRegion}
               loadingEnabled>
               <MapView.Marker.Animated
                 ref={marker => {
@@ -177,7 +127,7 @@ class Map extends Component {
                 draggable
                 coordinate={this.state.coordinate}
                 title="Location"
-                pinColor="#FF8D00"
+                pinColor="green"
                 description="Shows the job's location"
                 onDragEnd={e => {
                   this.stopdragging(e);
