@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Image, Text, View, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import * as Comps from '../../components';
 import * as constants from '../../utils/constants';
-import Popover from 'react-native-popover-view'
+import Popover from 'react-native-popover-view';
+import {Header, Title, Left, Icon} from 'native-base';
 import { CheckBox, Button  } from 'react-native-elements';
-const {width, height} = Dimensions.get("window");
+import IconBadge from 'react-native-icon-badge';
+const {width, height} = Dimensions.get('window');
+import normalize from 'react-native-normalize'
 
 
 class Selection extends Component {
@@ -15,11 +18,12 @@ class Selection extends Component {
         this.state = {
           data: constants.tops,
           visible: false,
-          checked: "first",
+          checked: 'first',
           urgent: false,
           normal: true,
           indoor: true,
-          outdoor:false
+          outdoor:false,
+          count: 1
         };
     }
 
@@ -30,23 +34,41 @@ class Selection extends Component {
      _hide =() =>this.setState({visible: false})
     handleNav =() =>{
       this._hide();
-      this.props.navigation.navigate("Map")
+      this.props.navigation.navigate('Map');
     }
 
   render() {
     const { urgent, indoor, normal, outdoor } = this.state;
     return (
       <View style={{flex:1}}>
+      <Header>        
+        <View style = {{flex: 1, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}}>
+        <Icon type = "AntDesign" name = "arrowleft" onPress = {() =>this.props.navigation.goBack()}/>
+          <Text style = {{fontSize: normalize(18)}}>Selection Area</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'center',}}>
+            <IconBadge
+              MainElement={
+             <Icon name = "shopping-cart" type = "Feather" style={{fontSize: normalize(30)}}/>
+              }
+             BadgeElement={
+            <Text style={{color:'#FFFFFF'}}>{this.state.count}</Text>}
+              IconBadgeStyle={{width: normalize(20),height: normalize(20), backgroundColor: '#FF00EE', left: normalize(20)}}
+              Hidden={this.state.count==0}
+    />
+</View>
+<Icon type = "AntDesign" name = "arrowright" onPress = {this._show}/>
+        </View>
+      </Header>
       <FlatList
 
         data = {this.state.data}
         renderItem = {(item) => ( <Comps.Pricing  {...item} />)}
         keyExtractor = {item => item.id}
         style = {{flex: 2, width, height}}
-       
+
        />
-       <Popover isVisible={this.state.visible}  popoverStyle = {{width: width*0.98, height: height*0.8}}>
-        
+       <Popover isVisible={this.state.visible}  popoverStyle = {{width: width * 0.98, height: height * 0.8}}>
+
         <View style = {{borderBottomWidth: 0.2}}>
           <Text style = {{textAlign: 'center', fontSize: 20, fontWeight: '400', paddingTop: 12}}>Laundary Options</Text>
         </View>
@@ -55,8 +77,8 @@ class Selection extends Component {
                 checkedColor = "#c3f28a"
                 size = {30}
                 title="Urgent"
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
                 containerStyle = {{borderWidth: 0, backgroundColor: 'white'}}
                 checked={urgent}
                 onPress = {() =>this.setState({normal: !this.state.normal, urgent: !this.state.urgent})}
@@ -65,8 +87,8 @@ class Selection extends Component {
                 checkedColor = "#c3f28a"
                 size = {30}
                 title="Ordinary"
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
                 containerStyle = {{borderWidth: 0, backgroundColor: 'white'}}
                 checked={normal}
                 onPress = {() =>this.setState({normal: !this.state.normal, urgent: !this.state.urgent})}
@@ -75,15 +97,13 @@ class Selection extends Component {
 
         <View>
 
-          <View style = {{borderBottomWidth: 0.2, marginTop: 30}}>
-           
-          </View>
+          <View style = {{borderBottomWidth: 0.2, marginTop: 30}} />
           <CheckBox
                 checkedColor = "#c3f28a"
                 size = {30}
                 title="Indoor"
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
                 containerStyle = {{borderWidth: 0, backgroundColor: 'white'}}
                 checked={indoor}
                 onPress = {() =>this.setState({indoor: !this.state.indoor, outdoor: !this.state.outdoor})}
@@ -92,12 +112,12 @@ class Selection extends Component {
                 checkedColor = "#c3f28a"
                 size = {30}
                 title="Outdoor"
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
                 containerStyle = {{borderWidth: 0, backgroundColor: 'white'}}
                 checked={outdoor}
                 onPress = {() =>this.setState({indoor: !this.state.indoor, outdoor: !this.state.outdoor})}
-                />   
+                />
         </View>
         <View style = {{marginHorizontal: 15}}>
           <Text style = {{fontWeight: '600', fontSize: 16}}>Note</Text>
@@ -106,10 +126,10 @@ class Selection extends Component {
 
         </View>
         <View style = {{marginHorizontal: 15, flex: 1, flexDirection: 'row', justifyContent: 'space-between', top: 20}}>
-          <Button icon={{name: "arrow-back",size: 15,color: "white"}}onPress = {this._hide} buttonStyle = {{backgroundColor: 'red'}} title = "Back"/>
-          <Button icon={{name: "arrow-forward", size: 15, color: "white" }} buttonStyle = {{backgroundColor: "#c3f28a", color: 'white'}}title = "Continue" onPress ={this.handleNav}/>
+          <Button icon={{name: 'arrow-back',size: 15,color: 'white'}}onPress = {this._hide} buttonStyle = {{backgroundColor: 'red'}} title = "Back"/>
+          <Button icon={{name: 'arrow-forward', size: 15, color: 'white' }} buttonStyle = {{backgroundColor: '#c3f28a', color: 'white'}}title = "Continue" onPress ={this.handleNav}/>
         </View>
-        
+
       </Popover>
           <TouchableOpacity style = {{flex:0.1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',backgroundColor: '#d3f58e'}} onPress = {this._show}>
             <Text>
@@ -120,7 +140,7 @@ class Selection extends Component {
             </Text>
           </TouchableOpacity>
        </View>
-       
+
     );
   }
 }
@@ -136,7 +156,7 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     padding: 5,
-      
-  }
+
+  },
 });
 export default Selection;

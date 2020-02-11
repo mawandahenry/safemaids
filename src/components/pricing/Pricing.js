@@ -6,6 +6,7 @@ const {width, height} = Dimensions.get('window');
 import {Icon} from 'native-base';
 import * as Constants from '../../utils/constants';
 import normalize from 'react-native-normalize';
+import moneyUgx from '../../utils/methods'
 class Pricing extends Component {
   constructor(props) {
     super(props);
@@ -36,42 +37,44 @@ class Pricing extends Component {
   render() {
 
     return (
-        <Card style = {{justifyContent: 'center', alignContents: 'center', width, height}}>
-        <View>
+        <View style = {{justifyContent: 'center', alignItems: 'center', flexDirection: 'row', flex: 1, marginTop: normalize(30)}}>
+        <View style = {{flex: 1}}>
         <Image source = {this.props.item.image} style = {styles.image} resizeMode = "contain"/>
         </View>
-        <View>
+        <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text style = {{textAlign: 'center', fontSize: 20}}>{this.props.item.title}</Text>
+        <Text>{moneyUgx(this.props.item.price * this.state.qty)}</Text>
         </View>
-        <View>
-         
-          <Text style = {{textAlign: 'center', marginTop: '-12%'}}>{`Qty: ${this.state.qty}`}</Text>
-          <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+        <View style = {{flex: 1}}>
+          <View style = {{justifyContent: 'center', alignItems: 'center'}}>
             <Icon
-            name = "caretleft"
-            type = "AntDesign"
-            style = {{color: 'green'}}
-            onPress = {() => this.setState(prevState =>{return {qty:  prevState.qty == 1 ? prevState.qty - 0 : prevState.qty - 1};})}
-
-            />
-            <Text style = {{paddingLeft: 30, paddingRight: 30}}>{` UGX ${this.props.item.price * this.state.qty}`}</Text>
-            <Icon
-            name = "caretright"
+            name = "caretup"
             type = "AntDesign"
             style = {{color: 'green'}}
             onPress = {() => this.setState(prevState =>{return {qty: prevState.qty + 1};})}
+            />
+            
+            <Text style = {{textAlign: 'center'}}>{`Qty: ${this.state.qty}`}</Text>
+            <Icon
+            name = "caretdown"
+            type = "AntDesign"
+            style = {{color: 'green'}}
+            onPress = {() => this.setState(prevState =>{return {qty:  prevState.qty == 1 ? prevState.qty - 0 : prevState.qty - 1};})}
              />
           </View>
-          <Icon type = "FontAwesome" name = "cart-plus" style = {{fontSize: 80, alignSelf: 'center', color: 'green'}}/>
+        
         </View>
-        </Card>
+        <View style = {{flex: 0.5}}>
+        <Icon type = "FontAwesome" name = "cart-plus" style = {{fontSize: normalize(30), alignSelf: 'center', color: 'green'}}/>
+        </View>
+        </View>
     );
   }
 }
 const styles = StyleSheet.create({
   image: {
-    width: '30%',
-    height: '30%',
+    width: '90%',
+    height: '90%',
     borderRadius: 10,
     alignSelf: 'center',
     paddingTop: '10%',

@@ -23,7 +23,7 @@ const HomeRoute = createStackNavigator({
     Selection: {
         screen: Screens.Selection,
         navigationOptions: () => ({
-            title: "Selection"
+            header: null
         })
     },
     Map: {
