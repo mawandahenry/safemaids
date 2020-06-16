@@ -64,9 +64,9 @@ const dashboard = createDrawerNavigator({
     initialRouteName: 'User',
     contentComponent: DrawerContainer,
     drawerBackgroundColor: 'white',
-  drawerWidth: width * 0.6,
-  overlayColor: 'rgba(0, 0, 0, 0.6)',
-  contentOptions: {
+    drawerWidth: width * 0.6,
+    overlayColor: 'rgba(0, 0, 0, 0.6)',
+    contentOptions: {
     activeTintColor: 'white',
     inactiveTintColor: '#000',
     activeBackgroundColor: 'transparent',

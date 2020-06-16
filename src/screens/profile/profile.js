@@ -1,15 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Linking,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import normalize from 'react-native-normalize';
-import {Container, Header, Content, Accordion, Icon} from 'native-base';
+import {Icon} from 'native-base';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -37,6 +30,7 @@ export default class Profile extends Component {
               flex: 1,
               flexDirection: 'row',
               alignItems: 'center',
+              justifyContent: 'flex-start',
             }}>
             <Icon name="person-outline" type="MaterialIcons" />
             <Text>Mawanda Henry</Text>
@@ -87,7 +81,7 @@ export default class Profile extends Component {
 const styles = StyleSheet.create({
   header: {
     flex: 2,
-    backgroundColor: '#00ff24',
+    backgroundColor: 'transparent',
   },
   body: {
     flex: 3,
@@ -101,6 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     padding: normalize(5),
+    justifyContent: 'flex-start',
   },
   image: {
     flex: 1,
